@@ -9,21 +9,15 @@
  * @package Burton_Mountain_Homes
  */
 
-// Get ACF fields if available, otherwise use defaults
-$hero_image = '';
-if (function_exists('get_field')) {
-    $hero_image = get_field('hero_image');
-}
-$hero_image = $hero_image ?: get_stylesheet_directory_uri() . '/assets/images/hero-default.jpg';
-$hero_image_url = is_array($hero_image) ? $hero_image['url'] : $hero_image;
-
 $hero_headline = 'Your Trusted Partners in Vail Valley Real Estate';
 $hero_subtitle = 'With record-setting sales and deep local roots, Bret Burton and Ilse Cervantes deliver the expertise, relationships, and results that luxury mountain real estate demands.';
 
-if (function_exists('get_field')) {
-    $hero_headline = get_field('hero_headline') ?: $hero_headline;
-    $hero_subtitle = get_field('hero_subtitle') ?: $hero_subtitle;
-}
+// Hero video (set via Homepage Settings meta box)
+$hero_video_url = get_post_meta(get_the_ID(), '_bmh_hero_video', true);
+
+// Hero image — meta box first, then fallback default
+$hero_image_url = get_post_meta(get_the_ID(), '_bmh_hero_image', true);
+$hero_image_url = $hero_image_url ?: get_stylesheet_directory_uri() . '/assets/images/hero-default.jpg';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -47,7 +41,14 @@ if (function_exists('get_field')) {
 
 <!-- Hero Section -->
 <section class="bmh-hero">
-    <div class="bmh-hero-bg" style="background-image: url('<?php echo esc_url($hero_image_url); ?>');"></div>
+    <?php if ($hero_video_url) : ?>
+        <video class="bmh-hero-video" autoplay muted loop playsinline
+               poster="<?php echo esc_url($hero_image_url); ?>">
+            <source src="<?php echo esc_url($hero_video_url); ?>" type="video/mp4">
+        </video>
+    <?php else : ?>
+        <div class="bmh-hero-bg" style="background-image: url('<?php echo esc_url($hero_image_url); ?>');"></div>
+    <?php endif; ?>
     <div class="bmh-hero-overlay"></div>
     <div class="bmh-hero-content">
         <p class="bmh-hero-credibility">LIV Sotheby's International Realty • Vail Valley</p>

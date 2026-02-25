@@ -264,6 +264,44 @@ function bmh_register_cmb2_fields() {
 }
 
 // =============================================
+// CMB2 HOMEPAGE SETTINGS
+// =============================================
+
+add_action('cmb2_admin_init', 'bmh_register_homepage_fields');
+function bmh_register_homepage_fields() {
+    $cmb = new_cmb2_box(array(
+        'id'           => 'bmh_homepage_settings',
+        'title'        => __('Homepage Settings', 'burton-mountain-homes'),
+        'object_types' => array('page'),
+        'show_on'      => array('key' => 'page-template', 'value' => 'front-page.php'),
+        'context'      => 'normal',
+        'priority'     => 'high',
+        'show_names'   => true,
+    ));
+
+    // Hero Video
+    $cmb->add_field(array(
+        'name'         => 'Hero Video',
+        'desc'         => 'Upload an MP4 video for the hero background. When set, this overrides the hero image. Recommended: landscape, 15–30s loop, compressed for web (under 20MB).',
+        'id'           => '_bmh_hero_video',
+        'type'         => 'file',
+        'options'      => array('url' => false),
+        'query_args'   => array('type' => 'video/mp4'),
+        'preview_size' => 'small',
+    ));
+
+    // Hero Fallback Image
+    $cmb->add_field(array(
+        'name'         => 'Hero Image (fallback)',
+        'desc'         => 'Shown when no video is set, or as the poster image while the video loads.',
+        'id'           => '_bmh_hero_image',
+        'type'         => 'file',
+        'options'      => array('url' => false),
+        'preview_size' => 'medium',
+    ));
+}
+
+// =============================================
 // HELPER FUNCTIONS FOR TEMPLATES
 // =============================================
 
