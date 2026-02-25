@@ -198,100 +198,69 @@ function bmh_flush_rewrite_rules() {
 }
 
 // =============================================
-// ACF FIELD REGISTRATION (if ACF not installed, use native)
+// CMB2 PROPERTY FIELDS
 // =============================================
 
-// Check if ACF is active, if not we'll add basic meta boxes
-if (!class_exists('ACF')) {
-    add_action('add_meta_boxes', 'bmh_add_property_meta_boxes');
-    add_action('save_post_property', 'bmh_save_property_meta');
-}
+add_action('cmb2_admin_init', 'bmh_register_cmb2_fields');
+function bmh_register_cmb2_fields() {
+    $cmb = new_cmb2_box(array(
+        'id'           => 'bmh_property_details',
+        'title'        => __('Property Details', 'burton-mountain-homes'),
+        'object_types' => array('property'),
+        'context'      => 'normal',
+        'priority'     => 'high',
+        'show_names'   => true,
+    ));
 
-function bmh_add_property_meta_boxes() {
-    add_meta_box(
-        'bmh_property_details',
-        __('Property Details', 'burton-mountain-homes'),
-        'bmh_property_details_callback',
-        'property',
-        'normal',
-        'high',
-        array('__back_compat_meta_box' => false) // Show in Gutenberg
-    );
-}
+    $cmb->add_field(array(
+        'name'       => 'Price ($)',
+        'id'         => '_bmh_price',
+        'type'       => 'text',
+        'attributes' => array('type' => 'number', 'placeholder' => '4500000'),
+    ));
 
-function bmh_property_details_callback($post) {
-    wp_nonce_field('bmh_property_details', 'bmh_property_details_nonce');
-    
-    $price = get_post_meta($post->ID, '_bmh_price', true);
-    $address = get_post_meta($post->ID, '_bmh_address', true);
-    $bedrooms = get_post_meta($post->ID, '_bmh_bedrooms', true);
-    $bathrooms = get_post_meta($post->ID, '_bmh_bathrooms', true);
-    $sqft = get_post_meta($post->ID, '_bmh_sqft', true);
-    $year_built = get_post_meta($post->ID, '_bmh_year_built', true);
-    $mls_number = get_post_meta($post->ID, '_bmh_mls_number', true);
-    ?>
-    <style>
-        .bmh-meta-row { margin-bottom: 15px; }
-        .bmh-meta-row label { display: block; font-weight: 600; margin-bottom: 5px; }
-        .bmh-meta-row input { width: 100%; max-width: 400px; padding: 8px; }
-        .bmh-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    </style>
-    <div class="bmh-meta-row">
-        <label for="bmh_price"><?php _e('Price ($)', 'burton-mountain-homes'); ?></label>
-        <input type="number" id="bmh_price" name="bmh_price" value="<?php echo esc_attr($price); ?>" placeholder="4500000">
-    </div>
-    <div class="bmh-meta-row">
-        <label for="bmh_address"><?php _e('Address', 'burton-mountain-homes'); ?></label>
-        <input type="text" id="bmh_address" name="bmh_address" value="<?php echo esc_attr($address); ?>" placeholder="2325 Colorow Road, Wildridge">
-    </div>
-    <div class="bmh-meta-grid">
-        <div class="bmh-meta-row">
-            <label for="bmh_bedrooms"><?php _e('Bedrooms', 'burton-mountain-homes'); ?></label>
-            <input type="number" id="bmh_bedrooms" name="bmh_bedrooms" value="<?php echo esc_attr($bedrooms); ?>" placeholder="4">
-        </div>
-        <div class="bmh-meta-row">
-            <label for="bmh_bathrooms"><?php _e('Bathrooms', 'burton-mountain-homes'); ?></label>
-            <input type="text" id="bmh_bathrooms" name="bmh_bathrooms" value="<?php echo esc_attr($bathrooms); ?>" placeholder="3.5">
-        </div>
-        <div class="bmh-meta-row">
-            <label for="bmh_sqft"><?php _e('Square Feet', 'burton-mountain-homes'); ?></label>
-            <input type="number" id="bmh_sqft" name="bmh_sqft" value="<?php echo esc_attr($sqft); ?>" placeholder="4200">
-        </div>
-    </div>
-    <div class="bmh-meta-grid">
-        <div class="bmh-meta-row">
-            <label for="bmh_year_built"><?php _e('Year Built', 'burton-mountain-homes'); ?></label>
-            <input type="number" id="bmh_year_built" name="bmh_year_built" value="<?php echo esc_attr($year_built); ?>" placeholder="2018">
-        </div>
-        <div class="bmh-meta-row">
-            <label for="bmh_mls_number"><?php _e('MLS Number', 'burton-mountain-homes'); ?></label>
-            <input type="text" id="bmh_mls_number" name="bmh_mls_number" value="<?php echo esc_attr($mls_number); ?>" placeholder="S123456">
-        </div>
-    </div>
-    <?php
-}
+    $cmb->add_field(array(
+        'name'        => 'Address',
+        'id'          => '_bmh_address',
+        'type'        => 'text',
+        'attributes'  => array('placeholder' => '2325 Colorow Road, Wildridge'),
+    ));
 
-function bmh_save_property_meta($post_id) {
-    if (!isset($_POST['bmh_property_details_nonce']) || 
-        !wp_verify_nonce($_POST['bmh_property_details_nonce'], 'bmh_property_details')) {
-        return;
-    }
-    
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-    
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-    
-    $fields = array('price', 'address', 'bedrooms', 'bathrooms', 'sqft', 'year_built', 'mls_number');
-    
-    foreach ($fields as $field) {
-        if (isset($_POST['bmh_' . $field])) {
-            update_post_meta($post_id, '_bmh_' . $field, sanitize_text_field($_POST['bmh_' . $field]));
-        }
-    }
+    $cmb->add_field(array(
+        'name'       => 'Bedrooms',
+        'id'         => '_bmh_bedrooms',
+        'type'       => 'text',
+        'attributes' => array('type' => 'number', 'placeholder' => '4'),
+        'column'     => array('position' => 2),
+    ));
+
+    $cmb->add_field(array(
+        'name'       => 'Bathrooms',
+        'id'         => '_bmh_bathrooms',
+        'type'       => 'text',
+        'attributes' => array('placeholder' => '3.5'),
+    ));
+
+    $cmb->add_field(array(
+        'name'       => 'Square Feet',
+        'id'         => '_bmh_sqft',
+        'type'       => 'text',
+        'attributes' => array('type' => 'number', 'placeholder' => '4200'),
+    ));
+
+    $cmb->add_field(array(
+        'name'       => 'Year Built',
+        'id'         => '_bmh_year_built',
+        'type'       => 'text',
+        'attributes' => array('type' => 'number', 'placeholder' => '2018'),
+    ));
+
+    $cmb->add_field(array(
+        'name'       => 'MLS Number',
+        'id'         => '_bmh_mls_number',
+        'type'       => 'text',
+        'attributes' => array('placeholder' => 'S123456'),
+    ));
 }
 
 // =============================================
