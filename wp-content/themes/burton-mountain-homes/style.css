@@ -1,0 +1,1021 @@
+/*
+Theme Name: Burton Mountain Homes
+Theme URI: https://burtonmountainhomes.com
+Description: Custom theme for Burton Mountain Homes - Vail Valley Luxury Real Estate
+Author: Matt Holmes
+Author URI: https://wayfoundinc.com
+Template: generatepress
+Version: 1.0.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: burton-mountain-homes
+*/
+
+/* =============================================
+   GENERATEPRESS OVERRIDES - CRITICAL
+   ============================================= */
+
+/* Remove GP's default container constraints on homepage */
+body.home .site-content,
+body.page-template-front-page .site-content,
+body.home .content-area,
+body.page-template-front-page .content-area,
+body.home .inside-article,
+body.page-template-front-page .inside-article,
+body.home article,
+body.page-template-front-page article {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Remove GP's grid/sidebar layout on homepage */
+body.home .site-content .content-area,
+body.page-template-front-page .site-content .content-area {
+    width: 100% !important;
+    float: none !important;
+}
+
+body.home #primary,
+body.page-template-front-page #primary {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* Hide GP's default header on homepage - we use our own */
+body.home .site-header,
+body.page-template-front-page .site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: transparent !important;
+}
+
+/* Make GP header text white on homepage */
+body.home .site-header .main-title a,
+body.page-template-front-page .site-header .main-title a,
+body.home .site-header .site-title a,
+body.page-template-front-page .site-header .site-title a {
+    color: #ffffff !important;
+}
+
+body.home .site-header .menu > li > a,
+body.page-template-front-page .site-header .menu > li > a {
+    color: rgba(255,255,255,0.9) !important;
+}
+
+body.home .site-header .menu > li > a:hover,
+body.page-template-front-page .site-header .menu > li > a:hover {
+    color: #c9a962 !important;
+}
+
+/* Remove GP's footer on homepage if using custom */
+body.home .site-footer,
+body.page-template-front-page .site-footer {
+    display: none;
+}
+
+/* Remove entry header/title on homepage */
+body.home .entry-header,
+body.page-template-front-page .entry-header {
+    display: none;
+}
+
+/* =============================================
+   CSS VARIABLES
+   ============================================= */
+:root {
+    --bmh-navy: #1a2744;
+    --bmh-slate: #3d4f5f;
+    --bmh-gold: #c9a962;
+    --bmh-gold-light: #e8d4a8;
+    --bmh-cream: #faf8f5;
+    --bmh-stone: #9a958f;
+    --bmh-white: #ffffff;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =============================================
+   BASE STYLES
+   ============================================= */
+body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--bmh-navy);
+    background-color: var(--bmh-cream);
+}
+
+body.home,
+body.page-template-front-page {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+h3 {
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    font-weight: 500;
+}
+
+p {
+    font-size: 1.05rem;
+    color: var(--bmh-slate);
+}
+
+a {
+    color: var(--bmh-gold);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--bmh-navy);
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+.btn,
+.bmh-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary,
+.bmh-btn-primary {
+    background: var(--bmh-gold);
+    color: var(--bmh-navy);
+}
+
+.btn-primary:hover,
+.bmh-btn-primary:hover {
+    background: var(--bmh-gold-light);
+    color: var(--bmh-navy);
+    transform: translateY(-2px);
+}
+
+.btn-outline,
+.bmh-btn-outline {
+    background: transparent;
+    color: var(--bmh-white);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.btn-outline:hover,
+.bmh-btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--bmh-white);
+    color: var(--bmh-white);
+}
+
+/* =============================================
+   SECTION STYLING
+   ============================================= */
+.bmh-section {
+    padding: 6rem 4%;
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+.bmh-section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.bmh-section-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--bmh-gold);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.bmh-section-header h2 {
+    color: var(--bmh-navy);
+    margin-bottom: 1rem;
+}
+
+.bmh-section-header p {
+    font-size: 1.1rem;
+    color: var(--bmh-slate);
+}
+
+/* =============================================
+   HERO SECTION
+   ============================================= */
+.bmh-hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.bmh-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.7);
+}
+
+.bmh-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(26,39,68,0.6) 0%,
+        rgba(26,39,68,0.3) 50%,
+        rgba(26,39,68,0.5) 100%
+    );
+}
+
+.bmh-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: var(--bmh-white);
+    max-width: 900px;
+    padding: 0 2rem;
+}
+
+.bmh-hero-credibility {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--bmh-gold);
+    margin-bottom: 1.5rem;
+}
+
+.bmh-hero h1 {
+    color: var(--bmh-white);
+    margin-bottom: 1.5rem;
+}
+
+.bmh-hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+}
+
+.bmh-hero-cta {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* =============================================
+   STATS BAR
+   ============================================= */
+.bmh-stats-bar {
+    background: var(--bmh-navy);
+    padding: 3rem 4%;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.bmh-stat {
+    text-align: center;
+}
+
+.bmh-stat-number {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--bmh-gold);
+    letter-spacing: 0.02em;
+}
+
+.bmh-stat-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 0.5rem;
+}
+
+/* =============================================
+   TWO COLUMN LAYOUTS
+   ============================================= */
+.bmh-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.bmh-two-col-wide {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.bmh-agents-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+/* =============================================
+   PROPERTY CARDS
+   ============================================= */
+.bmh-properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.bmh-property-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--bmh-cream);
+    transition: transform 0.3s ease;
+}
+
+.bmh-property-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.bmh-property-card:hover {
+    transform: translateY(-8px);
+}
+
+.bmh-property-image {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
+
+.bmh-property-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.bmh-property-card:hover .bmh-property-image img {
+    transform: scale(1.05);
+}
+
+.bmh-property-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--bmh-navy);
+    color: var(--bmh-white);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.bmh-property-badge.sold {
+    background: var(--bmh-gold);
+    color: var(--bmh-navy);
+}
+
+.bmh-property-badge.pending {
+    background: var(--bmh-slate);
+    color: var(--bmh-white);
+}
+
+.bmh-property-badge.price-reduced {
+    background: #c94a4a;
+    color: var(--bmh-white);
+}
+
+.bmh-property-details {
+    padding: 1.5rem;
+    background: var(--bmh-white);
+}
+
+.bmh-property-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--bmh-navy);
+    margin-bottom: 0.5rem;
+}
+
+.bmh-property-address {
+    font-size: 0.95rem;
+    color: var(--bmh-slate);
+    margin-bottom: 1rem;
+}
+
+.bmh-property-specs {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--bmh-stone);
+}
+
+.bmh-property-specs span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* =============================================
+   TESTIMONIALS
+   ============================================= */
+.bmh-testimonials {
+    background: var(--bmh-navy);
+    color: var(--bmh-white);
+}
+
+.bmh-testimonials .bmh-section-header h2 {
+    color: var(--bmh-white);
+}
+
+.bmh-testimonials .bmh-section-header p {
+    color: rgba(255,255,255,0.7);
+}
+
+.bmh-testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bmh-testimonial-card {
+    background: rgba(255,255,255,0.05);
+    padding: 2rem;
+    border-left: 3px solid var(--bmh-gold);
+}
+
+.bmh-testimonial-quote {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 1.5rem;
+}
+
+.bmh-testimonial-author {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--bmh-gold);
+}
+
+/* =============================================
+   AGENT CARDS
+   ============================================= */
+.bmh-agent-card {
+    text-align: center;
+}
+
+.bmh-agent-photo {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    object-position: top;
+    margin-bottom: 1rem;
+    filter: grayscale(10%);
+    transition: filter 0.3s ease;
+}
+
+.bmh-agent-card:hover .bmh-agent-photo {
+    filter: grayscale(0%);
+}
+
+.bmh-agent-name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--bmh-navy);
+    margin-bottom: 0.25rem;
+}
+
+.bmh-agent-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bmh-gold);
+}
+
+/* =============================================
+   ABOUT SECTION HIGHLIGHTS
+   ============================================= */
+.bmh-highlights {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 2rem;
+    margin-top: 2rem;
+}
+
+.bmh-highlight {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.bmh-highlight-icon {
+    width: 24px;
+    height: 24px;
+    background: var(--bmh-gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.bmh-highlight p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* =============================================
+   LIFESTYLE SECTION
+   ============================================= */
+.bmh-lifestyle-image {
+    position: relative;
+    align-self: stretch;
+}
+
+.bmh-lifestyle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.bmh-lifestyle-caption {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(26,39,68,0.9);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+}
+
+.bmh-features {
+    margin-top: 2rem;
+}
+
+.bmh-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.bmh-feature-icon {
+    width: 8px;
+    height: 8px;
+    background: var(--bmh-gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+}
+
+.bmh-feature p {
+    margin: 0;
+}
+
+/* =============================================
+   CONTACT CTA
+   ============================================= */
+.bmh-contact-cta {
+    background: linear-gradient(135deg, var(--bmh-navy) 0%, #2a3d5c 100%);
+    text-align: center;
+    padding: 5rem 4%;
+    width: 100%;
+}
+
+.bmh-contact-cta h2 {
+    color: var(--bmh-white);
+    margin-bottom: 1rem;
+}
+
+.bmh-contact-cta > p {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.bmh-contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.bmh-contact-item {
+    color: var(--bmh-white);
+}
+
+.bmh-contact-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bmh-gold);
+    margin-bottom: 0.25rem;
+}
+
+.bmh-contact-value {
+    font-size: 1.1rem;
+}
+
+.bmh-contact-value a {
+    color: var(--bmh-white);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.bmh-contact-value a:hover {
+    color: var(--bmh-gold);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.bmh-footer {
+    background: #0f1825;
+    padding: 3rem 4%;
+    text-align: center;
+    width: 100%;
+}
+
+.bmh-footer-brand {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: var(--bmh-white);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.bmh-footer-brand span {
+    color: var(--bmh-gold);
+}
+
+.bmh-footer-affiliation {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1rem;
+}
+
+.bmh-footer-legal {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+}
+
+/* =============================================
+   SINGLE PROPERTY PAGE
+   ============================================= */
+.bmh-single-property-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+}
+
+.bmh-single-property-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bmh-single-property-header {
+    background: var(--bmh-white);
+    padding: 3rem 4%;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.bmh-single-property-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.bmh-single-property-title h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.bmh-single-property-location {
+    font-size: 1.1rem;
+    color: var(--bmh-slate);
+}
+
+.bmh-single-property-price {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--bmh-navy);
+}
+
+.bmh-single-property-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 4%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.bmh-property-description h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.bmh-property-description p {
+    margin-bottom: 1.5rem;
+}
+
+.bmh-property-details-list {
+    background: var(--bmh-cream);
+    padding: 2rem;
+}
+
+.bmh-property-details-list h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.bmh-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.bmh-detail-label {
+    color: var(--bmh-slate);
+}
+
+.bmh-detail-value {
+    font-weight: 600;
+    color: var(--bmh-navy);
+}
+
+/* =============================================
+   NAVIGATION
+   ============================================= */
+.bmh-nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: #fff;
+    text-decoration: none;
+}
+
+.bmh-nav-logo span {
+    color: var(--bmh-gold);
+}
+
+.bmh-nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.bmh-nav-links a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+}
+
+.bmh-nav-links a:hover {
+    color: var(--bmh-gold);
+}
+
+.bmh-nav-cta {
+    background: var(--bmh-gold) !important;
+    color: var(--bmh-navy) !important;
+    padding: 0.7rem 1.5rem;
+}
+
+.bmh-nav-cta:hover {
+    background: var(--bmh-gold-light) !important;
+    color: var(--bmh-navy) !important;
+}
+
+/* Hamburger button */
+.bmh-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.bmh-hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* Hamburger → X animation */
+.bmh-hamburger.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.bmh-hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.bmh-hamburger.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile menu panel */
+.bmh-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+    background: var(--bmh-navy);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.bmh-mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.bmh-mobile-menu a {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: 400;
+    color: var(--bmh-white);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+}
+
+.bmh-mobile-menu a:hover {
+    color: var(--bmh-gold);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+    .bmh-nav-links {
+        display: none;
+    }
+
+    .bmh-hamburger {
+        display: flex;
+    }
+
+    .bmh-mobile-menu {
+        display: flex;
+    }
+}
+
+@media (max-width: 900px) {
+    .bmh-two-col,
+    .bmh-two-col-wide {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .bmh-agents-row {
+        justify-content: center;
+    }
+
+    .bmh-stats-bar {
+        gap: 2rem;
+    }
+
+    .bmh-stat-number {
+        font-size: 2rem;
+    }
+
+    .bmh-single-property-content {
+        grid-template-columns: 1fr;
+    }
+
+    .bmh-testimonials-grid,
+    .bmh-properties-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .bmh-hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn,
+    .bmh-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .bmh-agents-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bmh-contact-info {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .bmh-stats-bar {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
