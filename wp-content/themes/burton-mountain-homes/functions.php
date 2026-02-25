@@ -163,6 +163,32 @@ function bmh_register_property_taxonomies() {
     ));
 }
 
+// =============================================
+// REGISTER META KEYS FOR REST API + GUTENBERG
+// =============================================
+
+add_action('init', 'bmh_register_meta_keys');
+function bmh_register_meta_keys() {
+    $meta_keys = array(
+        '_bmh_price'      => 'integer',
+        '_bmh_address'    => 'string',
+        '_bmh_bedrooms'   => 'number',
+        '_bmh_bathrooms'  => 'string',
+        '_bmh_sqft'       => 'integer',
+        '_bmh_year_built' => 'integer',
+        '_bmh_mls_number' => 'string',
+    );
+
+    foreach ($meta_keys as $key => $type) {
+        register_post_meta('property', $key, array(
+            'type'         => $type,
+            'single'       => true,
+            'show_in_rest' => true,
+            'auth_callback' => function() { return current_user_can('edit_posts'); },
+        ));
+    }
+}
+
 // Flush rewrite rules on theme activation
 add_action('after_switch_theme', 'bmh_flush_rewrite_rules');
 function bmh_flush_rewrite_rules() {
@@ -188,7 +214,8 @@ function bmh_add_property_meta_boxes() {
         'bmh_property_details_callback',
         'property',
         'normal',
-        'high'
+        'high',
+        array('__back_compat_meta_box' => false) // Show in Gutenberg
     );
 }
 
