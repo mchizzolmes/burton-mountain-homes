@@ -131,30 +131,11 @@
         
         if ($pagination) :
         ?>
-        <div style="text-align: center; margin-top: 3rem;">
-            <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
-                <?php foreach ($pagination as $link) : ?>
-                    <?php echo str_replace('page-numbers', 'page-numbers', $link); ?>
-                <?php endforeach; ?>
-            </div>
+        <div class="bmh-pagination">
+            <?php foreach ($pagination as $link) : ?>
+                <?php echo $link; ?>
+            <?php endforeach; ?>
         </div>
-        <style>
-            .page-numbers {
-                display: inline-block;
-                padding: 0.75rem 1rem;
-                background: #fff;
-                color: #1a2744;
-                text-decoration: none;
-                border: 1px solid rgba(0,0,0,0.1);
-                font-size: 0.9rem;
-            }
-            .page-numbers.current,
-            .page-numbers:hover {
-                background: #1a2744;
-                color: #fff;
-                border-color: #1a2744;
-            }
-        </style>
         <?php endif; ?>
         
     <?php else : ?>

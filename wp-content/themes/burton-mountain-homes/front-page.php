@@ -303,26 +303,38 @@ $hero_image_url = $hero_image_url ?: get_stylesheet_directory_uri() . '/assets/i
 </section>
 
 <!-- Contact CTA -->
-<section class="bmh-contact-cta" id="contact">
-    <h2>Let's Find Your Mountain Home</h2>
-    <p>
-        Whether you're buying, selling, or exploring investment opportunities, 
-        we'd love to learn about your goals and share our insights on the Vail Valley market.
-    </p>
-    <a href="mailto:bburton@livsothebysrealty.com" class="bmh-btn bmh-btn-primary">Start the Conversation</a>
-    <div class="bmh-contact-info">
-        <div class="bmh-contact-item">
-            <p class="bmh-contact-label">Bret Burton</p>
-            <p class="bmh-contact-value"><a href="tel:9706881819">(970) 688-1819</a></p>
+<?php $contact_shortcode = get_post_meta(get_the_ID(), '_bmh_contact_shortcode', true); ?>
+<section class="bmh-contact-cta<?php echo $contact_shortcode ? ' bmh-contact-cta--has-form' : ''; ?>" id="contact">
+    <div class="bmh-contact-cta-inner">
+        <div class="bmh-contact-cta-text">
+            <h2>Let's Find Your Mountain Home</h2>
+            <p>
+                Whether you're buying, selling, or exploring investment opportunities,
+                we'd love to learn about your goals and share our insights on the Vail Valley market.
+            </p>
+            <div class="bmh-contact-info">
+                <div class="bmh-contact-item">
+                    <p class="bmh-contact-label">Bret Burton</p>
+                    <p class="bmh-contact-value"><a href="tel:9706881819">(970) 688-1819</a></p>
+                </div>
+                <div class="bmh-contact-item">
+                    <p class="bmh-contact-label">Email</p>
+                    <p class="bmh-contact-value"><a href="mailto:bburton@livsothebysrealty.com">bburton@livsothebysrealty.com</a></p>
+                </div>
+                <div class="bmh-contact-item">
+                    <p class="bmh-contact-label">Office</p>
+                    <p class="bmh-contact-value">Beaver Creek Village</p>
+                </div>
+            </div>
+            <?php if (!$contact_shortcode) : ?>
+                <a href="mailto:bburton@livsothebysrealty.com" class="bmh-btn bmh-btn-primary" style="margin-top: 2rem; display: inline-block;">Start the Conversation</a>
+            <?php endif; ?>
         </div>
-        <div class="bmh-contact-item">
-            <p class="bmh-contact-label">Email</p>
-            <p class="bmh-contact-value"><a href="mailto:bburton@livsothebysrealty.com">bburton@livsothebysrealty.com</a></p>
+        <?php if ($contact_shortcode) : ?>
+        <div class="bmh-contact-cta-form">
+            <?php echo do_shortcode(wp_kses_post($contact_shortcode)); ?>
         </div>
-        <div class="bmh-contact-item">
-            <p class="bmh-contact-label">Office</p>
-            <p class="bmh-contact-value">Beaver Creek Village</p>
-        </div>
+        <?php endif; ?>
     </div>
 </section>
 

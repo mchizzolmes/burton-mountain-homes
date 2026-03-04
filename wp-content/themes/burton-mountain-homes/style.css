@@ -655,9 +655,27 @@ a:hover {
    ============================================= */
 .bmh-contact-cta {
     background: linear-gradient(135deg, var(--bmh-navy) 0%, #2a3d5c 100%);
-    text-align: center;
     padding: 5rem 4%;
     width: 100%;
+}
+
+.bmh-contact-cta-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Two-column layout when a form is present */
+.bmh-contact-cta--has-form .bmh-contact-cta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    text-align: left;
+}
+
+.bmh-contact-cta--has-form .bmh-contact-info {
+    justify-content: flex-start;
 }
 
 .bmh-contact-cta h2 {
@@ -665,11 +683,51 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-.bmh-contact-cta > p {
+.bmh-contact-cta p {
     color: rgba(255,255,255,0.8);
     font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto 2rem;
+    margin-bottom: 1rem;
+}
+
+/* WPForms / CF7 form styling inside contact section */
+.bmh-contact-cta-form .wpforms-form input,
+.bmh-contact-cta-form .wpforms-form textarea,
+.bmh-contact-cta-form .wpcf7-form input,
+.bmh-contact-cta-form .wpcf7-form textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.bmh-contact-cta-form .wpforms-form input::placeholder,
+.bmh-contact-cta-form .wpforms-form textarea::placeholder,
+.bmh-contact-cta-form .wpcf7-form input::placeholder,
+.bmh-contact-cta-form .wpcf7-form textarea::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.bmh-contact-cta-form .wpforms-submit,
+.bmh-contact-cta-form .wpcf7-submit {
+    background: var(--bmh-gold) !important;
+    color: var(--bmh-navy) !important;
+    border: none !important;
+    padding: 1rem 2.5rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    cursor: pointer;
+    font-size: 0.85rem !important;
+}
+
+@media (max-width: 768px) {
+    .bmh-contact-cta--has-form .bmh-contact-cta-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
 }
 
 .bmh-contact-info {
@@ -739,6 +797,37 @@ a:hover {
 .bmh-footer-legal {
     font-size: 0.75rem;
     color: rgba(255,255,255,0.4);
+}
+
+/* =============================================
+   PAGINATION
+   ============================================= */
+.bmh-pagination {
+    text-align: center;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bmh-pagination .page-numbers {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    color: var(--bmh-navy);
+    text-decoration: none;
+    border: 1px solid rgba(0,0,0,0.1);
+    font-size: 0.9rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.bmh-pagination .page-numbers.current,
+.bmh-pagination .page-numbers:hover {
+    background: var(--bmh-navy);
+    color: #fff;
+    border-color: var(--bmh-navy);
 }
 
 /* =============================================

@@ -299,6 +299,14 @@ function bmh_register_homepage_fields() {
         'options'      => array('url' => false),
         'preview_size' => 'medium',
     ));
+
+    // Contact Form Shortcode
+    $cmb->add_field(array(
+        'name' => 'Contact Form Shortcode',
+        'desc' => 'Paste your form plugin shortcode here, e.g. [wpforms id="123"] or [contact-form-7 id="456"]. This appears in the contact section of the homepage.',
+        'id'   => '_bmh_contact_shortcode',
+        'type' => 'text',
+    ));
 }
 
 // =============================================
