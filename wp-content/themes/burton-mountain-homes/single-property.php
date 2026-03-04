@@ -37,36 +37,7 @@ if (has_post_thumbnail()) {
 <body <?php body_class('bmh-single-property'); ?>>
 <?php wp_body_open(); ?>
 
-<!-- Navigation -->
-<nav class="bmh-nav bmh-nav-solid" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    padding: 1rem 4%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(26,39,68,0.97);
-">
-    <a href="<?php echo home_url(); ?>" style="
-        font-family: 'Playfair Display', Georgia, serif;
-        font-size: 1.3rem;
-        font-weight: 400;
-        letter-spacing: 0.08em;
-        color: #fff;
-        text-decoration: none;
-    ">Burton <span style="color: #c9a962;">Mountain</span> Homes</a>
-    <div style="display: flex; gap: 2.5rem; align-items: center;">
-        <a href="<?php echo home_url('/#properties'); ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;">Properties</a>
-        <a href="<?php echo home_url('/#about'); ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;">About</a>
-        <a href="<?php echo home_url('/#contact'); ?>" style="background: #c9a962; color: #1a2744; padding: 0.7rem 1.5rem; text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Contact</a>
-    </div>
-</nav>
-
-<!-- Spacer for fixed nav -->
-<div style="height: 60px;"></div>
+<?php get_template_part('template-parts/nav', null, ['transparent' => false]); ?>
 
 <?php while (have_posts()) : the_post(); ?>
 
