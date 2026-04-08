@@ -601,12 +601,24 @@ function bmh_import_properties_handler(WP_REST_Request $request) {
             }
         }
 
-        // Set taxonomies
+        // Set taxonomies — accept IDs or name (will create if needed)
         if (!empty($prop['status_terms'])) {
             wp_set_post_terms($post_id, array_map('intval', $prop['status_terms']), 'property_status');
         }
+        $area_ids = array();
         if (!empty($prop['area_terms'])) {
-            wp_set_post_terms($post_id, array_map('intval', $prop['area_terms']), 'property_area');
+            $area_ids = array_map('intval', $prop['area_terms']);
+        } elseif (!empty($prop['area_name'])) {
+            $term = get_term_by('name', $prop['area_name'], 'property_area');
+            if (!$term) {
+                $inserted = wp_insert_term($prop['area_name'], 'property_area');
+                $area_ids = is_wp_error($inserted) ? array() : array($inserted['term_id']);
+            } else {
+                $area_ids = array($term->term_id);
+            }
+        }
+        if (!empty($area_ids)) {
+            wp_set_post_terms($post_id, $area_ids, 'property_area');
         }
 
         // Upload and set featured image from local path
