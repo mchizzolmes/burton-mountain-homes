@@ -538,3 +538,100 @@ function bmh_create_default_statuses() {
         }
     }
 }
+
+// =============================================
+// TEMPORARY: Property import REST endpoint
+// Remove after import is complete
+// =============================================
+
+add_action('rest_api_init', 'bmh_register_import_endpoint');
+function bmh_register_import_endpoint() {
+    register_rest_route('bmh/v1', '/import-properties', array(
+        'methods'             => 'POST',
+        'callback'            => 'bmh_import_properties_handler',
+        'permission_callback' => function(WP_REST_Request $request) {
+            return $request->get_param('token') === 'BMH_IMPORT_2026';
+        },
+    ));
+}
+
+function bmh_import_properties_handler(WP_REST_Request $request) {
+    $properties = $request->get_json_params();
+    if (!is_array($properties)) {
+        return new WP_Error('invalid_data', 'Expected JSON array of properties', array('status' => 400));
+    }
+
+    $results = array();
+
+    foreach ($properties as $prop) {
+        $action = isset($prop['action']) ? $prop['action'] : 'create';
+
+        // Delete action
+        if ($action === 'delete') {
+            $deleted = wp_trash_post((int) $prop['id']);
+            $results[] = array('action' => 'delete', 'id' => $prop['id'], 'success' => (bool) $deleted);
+            continue;
+        }
+
+        // Create post
+        $post_id = wp_insert_post(array(
+            'post_title'  => sanitize_text_field($prop['title']),
+            'post_type'   => 'property',
+            'post_status' => 'publish',
+        ), true);
+
+        if (is_wp_error($post_id)) {
+            $results[] = array('action' => 'create', 'title' => $prop['title'], 'error' => $post_id->get_error_message());
+            continue;
+        }
+
+        // Set meta
+        $meta_map = array(
+            'price'      => '_bmh_price',
+            'address'    => '_bmh_address',
+            'bedrooms'   => '_bmh_bedrooms',
+            'bathrooms'  => '_bmh_bathrooms',
+            'sqft'       => '_bmh_sqft',
+            'mls_number' => '_bmh_mls_number',
+            'description' => '_bmh_description',
+        );
+        foreach ($meta_map as $key => $meta_key) {
+            if (isset($prop[$key])) {
+                update_post_meta($post_id, $meta_key, sanitize_text_field($prop[$key]));
+            }
+        }
+
+        // Set taxonomies
+        if (!empty($prop['status_terms'])) {
+            wp_set_post_terms($post_id, array_map('intval', $prop['status_terms']), 'property_status');
+        }
+        if (!empty($prop['area_terms'])) {
+            wp_set_post_terms($post_id, array_map('intval', $prop['area_terms']), 'property_area');
+        }
+
+        // Upload and set featured image from local path
+        if (!empty($prop['image_path']) && file_exists($prop['image_path'])) {
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            require_once(ABSPATH . 'wp-admin/includes/media.php');
+
+            $file_array = array(
+                'name'     => basename($prop['image_path']),
+                'tmp_name' => $prop['image_path'],
+            );
+            // Prevent WP from deleting the original file
+            add_filter('wp_handle_sideload_overrides', function($overrides) {
+                $overrides['action'] = 'wp_handle_sideload';
+                return $overrides;
+            });
+            $attach_id = media_handle_sideload($file_array, $post_id);
+            if (!is_wp_error($attach_id)) {
+                set_post_thumbnail($post_id, $attach_id);
+            }
+        }
+
+        $results[] = array('action' => 'create', 'id' => $post_id, 'title' => $prop['title'], 'success' => true);
+    }
+
+    return rest_ensure_response($results);
+}
